@@ -52,6 +52,7 @@
 		AF26E4FD1D2AE4B00092B43A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				AFF84B3A1D0623C7003599F4 /* AppDelegate.swift */,
 				AFF84B3C1D0623C7003599F4 /* HomeController.swift */,
 			);
 			name = Controllers;
@@ -95,7 +96,6 @@
 			children = (
 				AF26E5011D2AF82F0092B43A /* Model */,
 				AF26E4FC1D2AE4A80092B43A /* Helpers */,
-				AFF84B3A1D0623C7003599F4 /* AppDelegate.swift */,
 				AF26E4FD1D2AE4B00092B43A /* Controllers */,
 				AF26E4FE1D2AE4B70092B43A /* Views */,
 				AFF84B411D0623C7003599F4 /* Assets.xcassets */,
