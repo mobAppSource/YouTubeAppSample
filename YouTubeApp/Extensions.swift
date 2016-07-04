@@ -27,17 +27,31 @@ extension UIView{
         addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
     }
 }
-
-extension UIImageView{
+//cache for image loading
+let imgCache = NSCache()
+class CustomImgView: UIImageView{
+    var imgUrlString: String?
     func loadImgUsingUrlString(urlString: String) {
+        imgUrlString = urlString
+        if let imgFromCache = imgCache.objectForKey(urlString) as? UIImage{
+            self.image = imgFromCache
+            return
+        }
+        
+        image = nil
         let url = NSURL(string: urlString)
         NSURLSession.sharedSession().dataTaskWithURL(url!) { (data, response, error) in
             if error != nil{
                 print(error)
                 return
             }
-            dispatch_async(dispatch_get_main_queue(), { 
-                self.image = UIImage(data: data!)
+            dispatch_async(dispatch_get_main_queue(), {
+                let imgToCache = UIImage(data: data!)
+                
+                if self.imgUrlString == urlString{
+                    self.image = imgToCache
+                }
+                imgCache.setObject(imgToCache!, forKey: urlString)
             })
         }.resume()
     }
