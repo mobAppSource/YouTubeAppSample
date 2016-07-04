@@ -20,6 +20,19 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
         let layout = UICollectionViewFlowLayout()
         window?.rootViewController = UINavigationController(rootViewController: HomeController(collectionViewLayout: layout))
+        UINavigationBar.appearance().barTintColor = UIColor.rgb(230, green: 32, blue: 31, alpha: 1)
+        //Adding menu item images from
+        UINavigationBar.appearance().shadowImage = UIImage()
+        UINavigationBar.appearance().setBackgroundImage(UIImage(), forBarMetrics: .Default)
+        
+        application.statusBarStyle = .LightContent
+        
+        let statusBarBackView = UIView()
+        statusBarBackView.backgroundColor = UIColor.rgb(194, green: 31, blue: 31, alpha: 1)
+        window?.addSubview(statusBarBackView)
+        window?.addConstraintsWithFormat("H:|[v0]|", views: statusBarBackView)
+        window?.addConstraintsWithFormat("V:|[v0(20)]", views: statusBarBackView)
+        
         return true
     }
 
