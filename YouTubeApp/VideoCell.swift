@@ -1,40 +1,18 @@
 //
-//  ViewController.swift
+//  VideoCell.swift
 //  YouTubeApp
 //
-//  Created by Master on 6/6/16.
+//  Created by Master on 7/4/16.
 //  Copyright © 2016 Master. All rights reserved.
 //
 
+import Foundation
 import UIKit
 
-class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
+//Base UICollectionViewCell class
 
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        navigationItem.title = "Home"
-        collectionView?.backgroundColor = UIColor.whiteColor()
-        collectionView?.registerClass(VideoCell.self, forCellWithReuseIdentifier: "cellID")
-    }
-    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return 5
-    }
-    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cellID", forIndexPath: indexPath)
-        
-        return cell
-    }
-    
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        return CGSizeMake(view.frame.width, 200)
-    }
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 0
-    }
-
-}
-
-class VideoCell: UICollectionViewCell{
+class BaseCell: UICollectionViewCell
+{
     override init(frame: CGRect) {
         super.init(frame: frame)
         setupViews()
@@ -42,8 +20,15 @@ class VideoCell: UICollectionViewCell{
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
-    
     func setupViews() {
+        
+    }
+}
+
+class VideoCell: BaseCell{
+    
+    
+    override func setupViews() {
         
         addSubview(thumbnaillImageView)
         addSubview(separatorView)
@@ -70,17 +55,17 @@ class VideoCell: UICollectionViewCell{
         addConstraint(NSLayoutConstraint(item: titleLabel, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0, constant: 20))
         
         //Top Constraint
-        addConstraint(NSLayoutConstraint(item: SubTitleTextView, attribute: .Top, relatedBy: .Equal, toItem: titleLabel, attribute: .Bottom, multiplier: 1, constant: 8))
+        addConstraint(NSLayoutConstraint(item: SubTitleTextView, attribute: .Top, relatedBy: .Equal, toItem: titleLabel, attribute: .Bottom, multiplier: 1, constant: 4))
         //Left Constraint
         addConstraint(NSLayoutConstraint(item: SubTitleTextView, attribute: .Left, relatedBy: .Equal, toItem: profileImageView, attribute: .Right, multiplier: 1, constant: 8))
         //RIght Constraint
         addConstraint(NSLayoutConstraint(item: SubTitleTextView, attribute: .Right, relatedBy: .Equal, toItem: thumbnaillImageView, attribute: .Right, multiplier: 1, constant: 0))
         //Height Constraint
-        addConstraint(NSLayoutConstraint(item: SubTitleTextView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0, constant: 20))
+        addConstraint(NSLayoutConstraint(item: SubTitleTextView, attribute: .Height, relatedBy: .Equal, toItem: self, attribute: .Height, multiplier: 0, constant: 30))
     }
     let separatorView: UIView = {
         let view = UIView()
-        view.backgroundColor = UIColor.blackColor()
+        view.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
         
         
         return view
@@ -89,39 +74,36 @@ class VideoCell: UICollectionViewCell{
     let thumbnaillImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = UIColor.blueColor()
-        
-        
-        
+        imageView.image = UIImage(named: "taylor_swift_blank_space")
+        imageView.contentMode = .ScaleAspectFill
+        imageView.clipsToBounds = true
         return imageView
     }()
     let profileImageView: UIImageView = {
         let imageView = UIImageView()
         imageView.backgroundColor = UIColor.greenColor()
+        imageView.image = UIImage(named: "taylor_swift_profile")
+        imageView.layer.cornerRadius = 22
+        imageView.layer.masksToBounds = true
+        imageView.layer.borderColor = UIColor.blueColor().CGColor
+        imageView.layer.borderWidth = 1
         return imageView
     }()
     let titleLabel: UILabel = {
         let label = UILabel()
-        label.backgroundColor = UIColor.purpleColor()
         label.translatesAutoresizingMaskIntoConstraints = false
+        //        label.backgroundColor = UIColor.purpleColor()
+        label.text = "Taylor Swift - Blank Space"
+        
         return label
     }()
     let SubTitleTextView: UITextView = {
         let txtView = UITextView()
-        txtView.backgroundColor = UIColor.redColor()
         txtView.translatesAutoresizingMaskIntoConstraints = false
+        txtView.text = "TaylorSwiftVevo ∙ 1,604,234,343 views ∙ 3 years"
+        txtView.textContainerInset = UIEdgeInsetsMake(0, -4, 0, 0)
+        txtView.textColor = UIColor.lightGrayColor()
         return txtView
     }()
 }
 
-extension UIView{
-    func addConstraintsWithFormat(format: String, views: UIView...){
-        var viewsDictionary = [String: UIView]()
-        
-        for (index, view) in views.enumerate(){
-            let key = "v\(index)"
-            view.translatesAutoresizingMaskIntoConstraints = false
-            viewsDictionary[key] = view
-        }
-        addConstraints(NSLayoutConstraint.constraintsWithVisualFormat(format, options: NSLayoutFormatOptions(), metrics: nil, views: viewsDictionary))
-    }
-}
