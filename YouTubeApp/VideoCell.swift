@@ -6,7 +6,6 @@
 //  Copyright © 2016 Master. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 //Base UICollectionViewCell class
@@ -69,10 +68,14 @@ class VideoCell: BaseCell{
     var video: Video?{
         didSet{
             titleLabel.text = video?.title
-            thumbnaillImageView.image = UIImage(named: (video?.thumbnailImageName)!)
-            if let profileImgName = video?.channel?.profileImgName{
-                profileImageView.image = UIImage(named: profileImgName)
-            }
+            
+//            thumbnaillImageView.image = UIImage(named: (video?.thumbnailImageName)!)
+            setupThumbnailImage()
+//            if let profileImgName = video?.channel?.profileImgName{
+////                profileImageView.image = UIImage(named: profileImgName)
+//                
+//            }
+            setupProfileImage()
             if let channelName = video?.channel?.name, numberOfViews = video?.numberOfViews{
                 let numberFormmater = NSNumberFormatter()
                 numberFormmater.numberStyle = .DecimalStyle
@@ -85,14 +88,25 @@ class VideoCell: BaseCell{
                 let size = CGSizeMake(frame.size.width - 16  - 44 - 8 - 16 - 8, 1000)
                 let options = NSStringDrawingOptions.UsesFontLeading.union(.UsesLineFragmentOrigin)
                 let estimatedRect = NSString(string: title).boundingRectWithSize(size, options: options, attributes:[NSFontAttributeName: UIFont.systemFontOfSize(14)], context: nil)
-                print("estimated height: \(estimatedRect.height)")
                 
                 titleLableHeightConstraint?.constant = estimatedRect.size.height > 20 ? 44: 20
-                print("Text Height: \(titleLableHeightConstraint?.constant)")
             }
         }
     }
     
+    func setupProfileImage()
+    {
+        if let profileImgURL = video?.thumbnailImageName{
+            profileImageView.loadImgUsingUrlString(profileImgURL)
+        }
+    }
+    //loading the thumbnail image from youtube.
+    func setupThumbnailImage()
+    {
+        if let thumbnailImgURL = video?.thumbnailImageName{
+            thumbnaillImageView.loadImgUsingUrlString(thumbnailImgURL)
+        }
+    }
     let separatorView: UIView = {
         let view = UIView()
         view.backgroundColor = UIColor(red: 230/255, green: 230/255, blue: 230/255, alpha: 1)
@@ -117,6 +131,8 @@ class VideoCell: BaseCell{
         imageView.layer.masksToBounds = true
         imageView.layer.borderColor = UIColor.blueColor().CGColor
         imageView.layer.borderWidth = 1
+        imageView.contentMode = .ScaleAspectFill
+        
         return imageView
     }()
     var titleLableHeightConstraint: NSLayoutConstraint?

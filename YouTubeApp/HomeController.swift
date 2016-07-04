@@ -11,26 +11,27 @@ import UIKit
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
 
     //model for video
-    var videos: [Video] = {
-        var kanyeChannel = Channel()
-        kanyeChannel.name = "KanyeIsTheBestChannel"
-        kanyeChannel.profileImgName = "kanye_profile"
-        
-        var blankSpaceVideo = Video()
-        blankSpaceVideo.title = "Taylor Swift - Blank Space"
-        blankSpaceVideo.thumbnailImageName = "taylor_swift_blank_space"
-        blankSpaceVideo.channel = kanyeChannel
-        blankSpaceVideo.numberOfViews = 1342342342
-        
-        var badBloodVideo = Video()
-        badBloodVideo.title = "Taylor Swift - Bad Blood featuring Kendirick Lamar"
-        badBloodVideo.thumbnailImageName = "taylor_swift_bad_blood"
-        badBloodVideo.channel = kanyeChannel
-        badBloodVideo.numberOfViews = 23423423
-        
-        return [blankSpaceVideo, badBloodVideo]
-    }()
-    
+//    var videos: [Video] = {
+//        var kanyeChannel = Channel()
+//        kanyeChannel.name = "KanyeIsTheBestChannel"
+//        kanyeChannel.profileImgName = "kanye_profile"
+//        
+//        var blankSpaceVideo = Video()
+//        blankSpaceVideo.title = "Taylor Swift - Blank Space"
+//        blankSpaceVideo.thumbnailImageName = "taylor_swift_blank_space"
+//        blankSpaceVideo.channel = kanyeChannel
+//        blankSpaceVideo.numberOfViews = 1342342342
+//        
+//        var badBloodVideo = Video()
+//        badBloodVideo.title = "Taylor Swift - Bad Blood featuring Kendirick Lamar"
+//        badBloodVideo.thumbnailImageName = "taylor_swift_bad_blood"
+//        badBloodVideo.channel = kanyeChannel
+//        badBloodVideo.numberOfViews = 23423423
+//        
+//        return [blankSpaceVideo, badBloodVideo]
+//    }()
+
+    var videos: [Video]?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,6 +50,50 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         setupMenuBar()
         setupNavBarBtn()
+        self.fetchingVideos()
+    }
+    //fetching videos from youtube with json data format
+    func fetchingVideos()
+    {
+        let url = NSURL(string: "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json")
+        NSURLSession.sharedSession().dataTaskWithURL(url!) {
+            (data, response, error) in
+            if error != nil{
+                print("Error in fetching video info from youtube: \(error?.localizedDescription)")
+                return
+            }
+            //parsing the json data
+            do {
+                let json = try NSJSONSerialization.JSONObjectWithData(data!, options: .MutableContainers)
+                self.videos = [Video]()
+                for dict in json as! [[String: AnyObject]]{
+                    let video = Video()
+                    video.title = dict["title"] as? String
+                    video.thumbnailImageName = dict["thumbnail_image_name"] as? String
+                    let channelDict = dict["channel"] as! [String: AnyObject]
+                    let channel = Channel()
+                    channel.name = channelDict["name"] as? String
+                    channel.profileImgName = channelDict["profile_image_name"] as? String
+                    video.channel = channel
+                    
+                    
+                    self.videos?.append(video)
+                    
+                }
+                self.collectionView?.reloadData()
+                
+                
+                
+            }catch let jsonErr {
+                print("JSON Error: \(jsonErr)")
+            }
+            
+            
+            
+            
+            
+            
+        }.resume()
     }
     //adding finding and more buttons on the navigationBar
     func setupNavBarBtn()
@@ -86,11 +131,13 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     }
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return videos.count
+        return videos?.count ?? 0
+//        return videos.count
     }
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
         let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cellID", forIndexPath: indexPath) as! VideoCell
-        cell.video = videos[indexPath.item]
+        cell.video = videos![indexPath.item]
+//        cell.video = videos[indexPath.item]
         return cell
     }
     
