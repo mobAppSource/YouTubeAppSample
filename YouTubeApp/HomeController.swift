@@ -9,28 +9,7 @@
 import UIKit
 
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
-
-    //model for video
-//    var videos: [Video] = {
-//        var kanyeChannel = Channel()
-//        kanyeChannel.name = "KanyeIsTheBestChannel"
-//        kanyeChannel.profileImgName = "kanye_profile"
-//        
-//        var blankSpaceVideo = Video()
-//        blankSpaceVideo.title = "Taylor Swift - Blank Space"
-//        blankSpaceVideo.thumbnailImageName = "taylor_swift_blank_space"
-//        blankSpaceVideo.channel = kanyeChannel
-//        blankSpaceVideo.numberOfViews = 1342342342
-//        
-//        var badBloodVideo = Video()
-//        badBloodVideo.title = "Taylor Swift - Bad Blood featuring Kendirick Lamar"
-//        badBloodVideo.thumbnailImageName = "taylor_swift_bad_blood"
-//        badBloodVideo.channel = kanyeChannel
-//        badBloodVideo.numberOfViews = 23423423
-//        
-//        return [blankSpaceVideo, badBloodVideo]
-//    }()
-
+    
     var videos: [Video]?
     
     override func viewDidLoad() {
@@ -109,11 +88,12 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     {
         print("tapped serach button on the navigation bar")
     }
+    let settingsLauncher = SettingsLauncher()
     func actionMoreBtn()
     {
-        print("tapped more button on the navigation bar")
+        settingsLauncher.showSettings()
     }
-    
+    //action for more items view dismiss
     let menuBar: MenuBar = {
         let mb = MenuBar()
         return mb
