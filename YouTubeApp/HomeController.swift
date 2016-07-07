@@ -11,6 +11,8 @@ import UIKit
 class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLayout {
     
     var videos: [Video]?
+    private let cellID = "cellID"
+    let cellColors:[UIColor] = [.redColor(), .greenColor(), .blueColor(), .grayColor()]
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -20,16 +22,26 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         titleBar.font = UIFont.systemFontOfSize(20)
         navigationItem.titleView = titleBar
         
-        
-        navigationController?.navigationBar.translucent = false
-        collectionView?.backgroundColor = UIColor.whiteColor()
-        collectionView?.registerClass(VideoCell.self, forCellWithReuseIdentifier: "cellID")
-        //move down for 50 to display the whole cell
-        collectionView?.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
-        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+        setupCollectionView()
         setupMenuBar()
         setupNavBarBtn()
         self.fetchingVideos()
+    }
+    func setupCollectionView()
+    {
+        if let flowLayout = collectionView?.collectionViewLayout as? UICollectionViewFlowLayout{
+            flowLayout.scrollDirection = .Horizontal
+            flowLayout.minimumLineSpacing = 0
+        }
+        navigationController?.navigationBar.translucent = false
+        collectionView?.backgroundColor = UIColor.whiteColor()
+//        collectionView?.registerClass(VideoCell.self, forCellWithReuseIdentifier: "cellID")
+        collectionView?.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: cellID)
+        //move down for 50 to display the whole cell
+        collectionView?.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+        collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
+        collectionView?.pagingEnabled = true
+        
     }
     //fetching videos from youtube with json data format
     func fetchingVideos()
@@ -54,15 +66,24 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     func actionFinding()
     {
         print("tapped serach button on the navigation bar")
+        scrollToMenuIndex(2)
     }
+    func scrollToMenuIndex(mIndex: Int){
+        let indexPath = NSIndexPath(forItem: mIndex, inSection: 0)
+        collectionView?.scrollToItemAtIndexPath(indexPath, atScrollPosition: .None, animated: true)
+    }
+    
+    
+    
     let settingsLauncher = SettingsLauncher()
     func actionMoreBtn()
     {
         settingsLauncher.showSettings()
     }
     //action for more items view dismiss
-    let menuBar: MenuBar = {
+    lazy var menuBar: MenuBar = {
         let mb = MenuBar()
+        mb.homeController = self
         return mb
     }()
     
@@ -86,24 +107,48 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         menuBar.topAnchor.constraintEqualToAnchor(topLayoutGuide.bottomAnchor).active = true
         
     }
+    override func scrollViewWillEndDragging(scrollView: UIScrollView, withVelocity velocity: CGPoint, targetContentOffset: UnsafeMutablePointer<CGPoint>) {
+        let index = Int(targetContentOffset.memory.x/view.frame.width)
+        let indexPath = NSIndexPath(forItem: index, inSection: 0)
+        menuBar.collectionView.selectItemAtIndexPath(indexPath, animated: true, scrollPosition: .None)
+    }
+    override func scrollViewDidScroll(scrollView: UIScrollView) {
+        menuBar.horizontalBarLeftAnchorConstraint?.constant = scrollView.contentOffset.x/4
+    }
+    
+    //MARK: -
+    //MARK: sliding section move
+    //mark: -
     
     override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return videos?.count ?? 0
-//        return videos.count
+        return 4
     }
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cellID", forIndexPath: indexPath) as! VideoCell
-        cell.video = videos![indexPath.item]
-//        cell.video = videos[indexPath.item]
+        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellID, forIndexPath: indexPath)
+        cell.backgroundColor = cellColors[indexPath.item]
         return cell
     }
-    
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
-        let height = (self.view.frame.size.width - 16 - 16) * 9 / 16
-        return CGSizeMake(view.frame.width, height + 16 + 88)
+        return CGSizeMake(view.frame.width, view.frame.height)
     }
-    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
-        return 0
-    }
+    
+//    override func collectionView(collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+//        return videos?.count ?? 0
+////        return videos.count
+//    }
+//    override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
+//        let cell = collectionView.dequeueReusableCellWithReuseIdentifier("cellID", forIndexPath: indexPath) as! VideoCell
+//        cell.video = videos![indexPath.item]
+////        cell.video = videos[indexPath.item]
+//        return cell
+//    }
+//    
+//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
+//        let height = (self.view.frame.size.width - 16 - 16) * 9 / 16
+//        return CGSizeMake(view.frame.width, height + 16 + 88)
+//    }
+//    func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAtIndex section: Int) -> CGFloat {
+//        return 0
+//    }
 
 }

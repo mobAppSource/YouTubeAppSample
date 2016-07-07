@@ -10,6 +10,7 @@ import UIKit
 
 class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UICollectionViewDelegateFlowLayout {
     
+    var homeController: HomeController?
     private let cellID = "cellID"
     let imageNames = ["home", "trending", "subscriptions", "account"]
     lazy var collectionView: UICollectionView = {
@@ -47,7 +48,7 @@ class MenuBar: UIView, UICollectionViewDataSource, UICollectionViewDelegate, UIC
             self.layoutIfNeeded()
             }, completion: nil
         )
-        
+        homeController?.scrollToMenuIndex(indexPath.item)
     }
     
     override init(frame: CGRect) {
@@ -125,12 +126,6 @@ class MenuCell: BaseCell
         
         addConstraint(NSLayoutConstraint(item: imgView, attribute: .CenterX, relatedBy: .Equal, toItem: self, attribute: .CenterX, multiplier: 1, constant: 0))
         addConstraint(NSLayoutConstraint(item: imgView, attribute: .CenterY, relatedBy: .Equal, toItem: self, attribute: .CenterY, multiplier: 1, constant: 0))
-        
-        
-        
-        
-        
-        
         
         
         
