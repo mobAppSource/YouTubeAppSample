@@ -11,6 +11,8 @@
 		AF26E4FB1D2AE4810092B43A /* VideoCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF26E4FA1D2AE4810092B43A /* VideoCell.swift */; };
 		AF26E5001D2AE5310092B43A /* MenuBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF26E4FF1D2AE5310092B43A /* MenuBar.swift */; };
 		AF26E5031D2AF83C0092B43A /* Video.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF26E5021D2AF83C0092B43A /* Video.swift */; };
+		AF26E5051D2B2F6B0092B43A /* SettingsLauncher.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF26E5041D2B2F6B0092B43A /* SettingsLauncher.swift */; };
+		AF26E5071D2B358C0092B43A /* SettingCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = AF26E5061D2B358C0092B43A /* SettingCell.swift */; };
 		AFF84B3B1D0623C7003599F4 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF84B3A1D0623C7003599F4 /* AppDelegate.swift */; };
 		AFF84B3D1D0623C7003599F4 /* HomeController.swift in Sources */ = {isa = PBXBuildFile; fileRef = AFF84B3C1D0623C7003599F4 /* HomeController.swift */; };
 		AFF84B421D0623C7003599F4 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AFF84B411D0623C7003599F4 /* Assets.xcassets */; };
@@ -22,6 +24,8 @@
 		AF26E4FA1D2AE4810092B43A /* VideoCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = VideoCell.swift; sourceTree = "<group>"; };
 		AF26E4FF1D2AE5310092B43A /* MenuBar.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MenuBar.swift; sourceTree = "<group>"; };
 		AF26E5021D2AF83C0092B43A /* Video.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Video.swift; sourceTree = "<group>"; };
+		AF26E5041D2B2F6B0092B43A /* SettingsLauncher.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingsLauncher.swift; sourceTree = "<group>"; };
+		AF26E5061D2B358C0092B43A /* SettingCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingCell.swift; sourceTree = "<group>"; };
 		AFF84B371D0623C7003599F4 /* YouTubeApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = YouTubeApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AFF84B3A1D0623C7003599F4 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		AFF84B3C1D0623C7003599F4 /* HomeController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeController.swift; sourceTree = "<group>"; };
@@ -52,7 +56,9 @@
 		AF26E4FD1D2AE4B00092B43A /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				AFF84B3A1D0623C7003599F4 /* AppDelegate.swift */,
 				AFF84B3C1D0623C7003599F4 /* HomeController.swift */,
+				AF26E5041D2B2F6B0092B43A /* SettingsLauncher.swift */,
 			);
 			name = Controllers;
 			sourceTree = "<group>";
@@ -61,6 +67,7 @@
 			isa = PBXGroup;
 			children = (
 				AF26E4FA1D2AE4810092B43A /* VideoCell.swift */,
+				AF26E5061D2B358C0092B43A /* SettingCell.swift */,
 				AF26E4FF1D2AE5310092B43A /* MenuBar.swift */,
 			);
 			name = Views;
@@ -95,7 +102,6 @@
 			children = (
 				AF26E5011D2AF82F0092B43A /* Model */,
 				AF26E4FC1D2AE4A80092B43A /* Helpers */,
-				AFF84B3A1D0623C7003599F4 /* AppDelegate.swift */,
 				AF26E4FD1D2AE4B00092B43A /* Controllers */,
 				AF26E4FE1D2AE4B70092B43A /* Views */,
 				AFF84B411D0623C7003599F4 /* Assets.xcassets */,
@@ -177,7 +183,9 @@
 			files = (
 				AFF84B3D1D0623C7003599F4 /* HomeController.swift in Sources */,
 				AF26E5031D2AF83C0092B43A /* Video.swift in Sources */,
+				AF26E5071D2B358C0092B43A /* SettingCell.swift in Sources */,
 				AF26E4FB1D2AE4810092B43A /* VideoCell.swift in Sources */,
+				AF26E5051D2B2F6B0092B43A /* SettingsLauncher.swift in Sources */,
 				AF26E4F91D2AE29F0092B43A /* Extensions.swift in Sources */,
 				AFF84B3B1D0623C7003599F4 /* AppDelegate.swift in Sources */,
 				AF26E5001D2AE5310092B43A /* MenuBar.swift in Sources */,
