@@ -19,6 +19,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window?.makeKeyAndVisible()
         
         let layout = UICollectionViewFlowLayout()
+//        layout.scrollDirection = .Horizontal
         window?.rootViewController = UINavigationController(rootViewController: HomeController(collectionViewLayout: layout))
         UINavigationBar.appearance().barTintColor = UIColor.rgb(230, green: 32, blue: 31, alpha: 1)
         //Adding menu item images from
