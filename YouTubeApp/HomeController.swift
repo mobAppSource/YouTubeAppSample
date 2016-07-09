@@ -12,6 +12,8 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
     
     
     private let cellID = "cellID"
+    private let trendingCellID = "trendingCellID"
+    private let subscriptionCellID = "subscriptionCellID"
     let cellColors:[UIColor] = [.redColor(), .greenColor(), .blueColor(), .grayColor()]
     
     override func viewDidLoad() {
@@ -34,9 +36,12 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         }
         navigationController?.navigationBar.translucent = false
         collectionView?.backgroundColor = UIColor.whiteColor()
-//        collectionView?.registerClass(VideoCell.self, forCellWithReuseIdentifier: "cellID")
-//        collectionView?.registerClass(UICollectionViewCell.self, forCellWithReuseIdentifier: cellID)
         collectionView?.registerClass(FeedCell.self, forCellWithReuseIdentifier: cellID)
+        //Trending Cell
+        collectionView?.registerClass(TrendingCell.self, forCellWithReuseIdentifier: trendingCellID)
+        //Trending Cell
+        collectionView?.registerClass(SubscriptionCell.self, forCellWithReuseIdentifier: subscriptionCellID)
+        
         //move down for 50 to display the whole cell
         collectionView?.contentInset = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
         collectionView?.scrollIndicatorInsets = UIEdgeInsets(top: 50, left: 0, bottom: 0, right: 0)
@@ -125,9 +130,17 @@ class HomeController: UICollectionViewController, UICollectionViewDelegateFlowLa
         return 4
     }
     override func collectionView(collectionView: UICollectionView, cellForItemAtIndexPath indexPath: NSIndexPath) -> UICollectionViewCell {
-        let cell = collectionView.dequeueReusableCellWithReuseIdentifier(cellID, forIndexPath: indexPath)
-        cell.backgroundColor = cellColors[indexPath.item]
-        return cell
+        //Trending cell
+        var identity: String!
+        if indexPath.item == 1{
+            identity = trendingCellID
+        }else if indexPath.item == 2{
+            identity = subscriptionCellID
+        }else{
+            identity = cellID
+        }
+        
+        return collectionView.dequeueReusableCellWithReuseIdentifier(identity, forIndexPath: indexPath)
     }
     func collectionView(collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAtIndexPath indexPath: NSIndexPath) -> CGSize {
         return CGSizeMake(view.frame.width, view.frame.height - 50)

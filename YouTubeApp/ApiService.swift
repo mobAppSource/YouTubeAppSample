@@ -12,9 +12,31 @@ class ApiService: NSObject {
     
     static let sharedInstance = ApiService()
     
+    //Home Feed
     func fetchingVideos(completion: ([Video]) -> ())
     {
-        let url = NSURL(string: "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json")
+        let url = "https://s3-us-west-2.amazonaws.com/youtubeassets/home.json"
+        fetchingForURLString(url, completion: completion)
+    }
+    
+    //trending feed
+    func fetchingTrendingFeed(completion: ([Video]) -> ())
+    {
+        let url = "https://s3-us-west-2.amazonaws.com/youtubeassets/trending.json"
+        fetchingForURLString(url, completion: completion)
+    }
+
+    //Subscription Feed
+    func fetchingSubscriptionFeed(completion: ([Video]) -> ())
+    {
+        let url = "https://s3-us-west-2.amazonaws.com/youtubeassets/subscriptions.json"
+        fetchingForURLString(url, completion: completion)
+    }
+
+    //fetching datas from the url
+    func fetchingForURLString(urlString: String, completion: ([Video]) -> ())
+    {
+        let url = NSURL(string: urlString)
         NSURLSession.sharedSession().dataTaskWithURL(url!) {
             (data, response, error) in
             if error != nil{
@@ -34,10 +56,7 @@ class ApiService: NSObject {
                     channel.name = channelDict["name"] as? String
                     channel.profileImgName = channelDict["profile_image_name"] as? String
                     video.channel = channel
-                    
-                    
                     videos.append(video)
-                    
                 }
                 dispatch_async(dispatch_get_main_queue(), {
                     completion(videos)
@@ -45,13 +64,6 @@ class ApiService: NSObject {
             }catch let jsonErr {
                 print("JSON Error: \(jsonErr)")
             }
-            
-            
-            
-            
-            
-            
-            }.resume()
+        }.resume()
     }
-
 }
